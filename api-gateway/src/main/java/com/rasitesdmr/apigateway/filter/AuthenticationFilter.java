@@ -4,6 +4,7 @@ import com.rasitesdmr.apigateway.exception.UnauthorizedException;
 import com.rasitesdmr.apigateway.util.JwtUtil;
 import jakarta.ws.rs.core.MultivaluedHashMap;
 import jakarta.ws.rs.core.MultivaluedMap;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -16,6 +17,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 @Component
+@Slf4j
 public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
 
     @Autowired
@@ -29,7 +31,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
     public AuthenticationFilter() {
         super(Config.class);
         this.requestPathControlMap = new MultivaluedHashMap<>();
-//        requestPathControlMap.add("/city/createCity", "ROLE_ADMIN");
+        requestPathControlMap.add("/city/createCity", "ROLE_ADMIN");
 //        requestPathControlMap.add("/city/getCityList", "ROLE_ADMIN");
 //        requestPathControlMap.add("/city/getCityList", "ROLE_USER");
 //        requestPathControlMap.add("/clinic/createClinic", "ROLE_ADMIN");
@@ -56,7 +58,10 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
             if (routeValidator.isSecured.test(exchange.getRequest())) {
+                String methodName = new Object() {}.getClass().getEnclosingMethod().getName();
+
                 if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
+                    log.error("[Metot : {}] - Eksik yetkilendirme başlığı",methodName);
                     return Mono.error(new UnauthorizedException("Eksik yetkilendirme başlığı"));
                 }
                 String authHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
@@ -66,6 +71,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                 try {
                     jwtUtil.validateToken(authHeader);
                 } catch (Exception exception) {
+                    log.error("[Metot : {}] - Uygulamaya Yetkisiz Erişim",methodName);
                     return Mono.error(new UnauthorizedException("Uygulamaya Yetkisiz Erişim"));
                 }
 
@@ -75,9 +81,11 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                 List<String> key = requestPathControlMap.get(exchange.getRequest().getPath().toString());
 
                 if (key == null) {
+                    log.error("[Metot : {}] - Yalnızca admin yetkisi olan kullanıcılar bu işlemi gerçekleştirebilir",methodName);
                     return Mono.error(new UnauthorizedException("Yalnızca admin yetkisi olan kullanıcılar bu işlemi gerçekleştirebilir"));
                 }
                 if (!key.contains(role)) {
+                    log.error("[Metot : {}] - Yalnızca admin yetkisi olan kullanıcılar bu işlemi gerçekleştirebilir",methodName);
                     return Mono.error(new UnauthorizedException("Yalnızca admin yetkisi olan kullanıcılar bu işlemi gerçekleştirebilir"));
                 }
 
