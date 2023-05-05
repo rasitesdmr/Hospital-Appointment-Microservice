@@ -35,7 +35,7 @@ public class Doctor {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "uzmanlık_alanları")
+    @Column(name = "uzmanlık_alanı")
     private String profession;
 
     @ManyToMany(fetch = FetchType.EAGER,mappedBy = "doctors")

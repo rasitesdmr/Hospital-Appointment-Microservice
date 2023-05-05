@@ -1,5 +1,4 @@
-package kafka.model.dto.response;
-
+package kafka.model.dto.request;
 
 import lombok.*;
 
@@ -8,9 +7,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class HospitalResponse {
+public class HospitalRequest {
 
-    private Long id;
 
     private String name;
 

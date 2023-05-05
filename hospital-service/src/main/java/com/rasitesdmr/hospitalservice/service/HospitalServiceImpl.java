@@ -8,7 +8,6 @@ import com.rasitesdmr.hospitalservice.repository.CityRepository;
 import com.rasitesdmr.hospitalservice.repository.HospitalRepository;
 import kafka.model.Hospital;
 import kafka.model.dto.request.HospitalRequest;
-import kafka.model.dto.response.CityResponse;
 import kafka.model.dto.response.HospitalResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,15 +56,11 @@ public class HospitalServiceImpl implements HospitalService {
             throw new RegistrationException(uppercaseHospitalName + " adına sahip hastane varlığı kaydedilirken hata oluştu : " + exception.getMessage());
         }
 
-        CityResponse cityResponse = new CityResponse();
-        cityResponse.setId(hospital.getCity().getId());
-        cityResponse.setName(hospital.getCity().getName());
-
         return HospitalResponse.builder()
                 .id(hospital.getId())
                 .name(hospital.getName())
                 .address(hospital.getAddress())
-                .city(cityResponse)
+                .cityId(hospital.getCity().getId())
                 .build();
     }
 }
