@@ -1,17 +1,22 @@
 package com.rasitesdmr.hospitalservice.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rasitesdmr.hospitalservice.exception.AlreadyAvailableException;
 import com.rasitesdmr.hospitalservice.exception.BadRequestException;
 import com.rasitesdmr.hospitalservice.exception.NotAvailableException;
 import com.rasitesdmr.hospitalservice.exception.RegistrationException;
 import com.rasitesdmr.hospitalservice.repository.CityRepository;
 import com.rasitesdmr.hospitalservice.repository.HospitalRepository;
+import kafka.model.Clinic;
 import kafka.model.Hospital;
 import kafka.model.dto.request.HospitalRequest;
 import kafka.model.dto.response.HospitalResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -62,5 +67,42 @@ public class HospitalServiceImpl implements HospitalService {
                 .address(hospital.getAddress())
                 .cityId(hospital.getCity().getId())
                 .build();
+    }
+
+    @Override
+    public void createExcelHospital(List<HospitalResponse> hospitalResponseList) {
+        String methodName = new Object() {}.getClass().getEnclosingMethod().getName();
+
+        ObjectMapper mapper = new ObjectMapper();
+        List<HospitalResponse> hospitalList = mapper.convertValue(hospitalResponseList, new TypeReference<List<HospitalResponse>>() {});
+
+        for (HospitalResponse hospitalResponse: hospitalList){
+
+            String uppercaseHospitalName = hospitalResponse.getName().toUpperCase();
+
+            boolean hospitalExists = hospitalRepository.existsByName(uppercaseHospitalName);
+            if (!hospitalExists){
+                boolean cityExists = cityRepository.existsById(hospitalResponse.getCityId());
+                if (cityExists){
+                    Hospital hospital = new Hospital();
+                    try {
+                        hospital.setId(hospitalResponse.getId());
+                        hospital.setName(uppercaseHospitalName);
+                        hospital.setAddress(hospitalResponse.getAddress().toUpperCase());
+                        hospital.setCity(cityRepository.findById(hospitalResponse.getCityId()).get());
+                        hospitalRepository.save(hospital);
+                        log.info("[Metot : {}] - {} numaralı id'ye sahip hastane varlığı kaydedildi",methodName,hospital.getId());
+                    }catch (Exception exception){
+                        log.error("[Metot : {}] - {} adına sahip hastane varlığı kaydedilirken hata oluştu : {}",methodName,uppercaseHospitalName,exception.getMessage());
+                    }
+                }else {
+                    log.error("[Metot : {}] - {} numaralı id'ye sahip şehir bulunamadı", methodName,hospitalResponse.getCityId());
+                }
+            }else {
+                log.error("[Metot : {}] - {} adına sahip hastane zaten mevcut", methodName,uppercaseHospitalName);
+            }
+
+
+        }
     }
 }

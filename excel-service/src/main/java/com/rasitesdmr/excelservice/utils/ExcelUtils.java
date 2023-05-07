@@ -28,6 +28,7 @@ public class ExcelUtils {
     }
 
     public static <T> List<T> connectExcelColumnsToModelFields(InputStream inputStream, Class<T> entityClass, Map<Integer, String> columnSetterMapping) {
+
         List<T> entities = new ArrayList<>();
         try (Workbook workbook = new XSSFWorkbook(inputStream)) {
             Sheet sheet = workbook.getSheet("Sheet1");
@@ -82,6 +83,7 @@ public class ExcelUtils {
         }
         return entities;
     }
+
 
 
 

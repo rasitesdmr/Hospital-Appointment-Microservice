@@ -32,6 +32,11 @@ public class RandomIdGenerator implements IdentifierGenerator {
                 return hospital.getId();
             }
         }
+        if (o instanceof Doctor doctor){
+            if (doctor.getIdentityNumber()!=null){
+                return doctor.getIdentityNumber();
+            }
+        }
         long randomId = random.nextLong();
         return Math.abs(randomId);
     }

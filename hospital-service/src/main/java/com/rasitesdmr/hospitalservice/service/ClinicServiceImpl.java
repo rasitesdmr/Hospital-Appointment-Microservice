@@ -1,16 +1,21 @@
 package com.rasitesdmr.hospitalservice.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rasitesdmr.hospitalservice.exception.AlreadyAvailableException;
 import com.rasitesdmr.hospitalservice.exception.BadRequestException;
 import com.rasitesdmr.hospitalservice.exception.RegistrationException;
 import com.rasitesdmr.hospitalservice.repository.ClinicRepository;
 import com.rasitesdmr.hospitalservice.repository.HospitalRepository;
+import kafka.model.City;
 import kafka.model.Clinic;
 import kafka.model.dto.request.ClinicRequest;
 import kafka.model.dto.response.ClinicResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -48,7 +53,7 @@ public class ClinicServiceImpl implements ClinicService {
         try {
             clinic.setName(uppercaseClinicName);
             clinicRepository.save(clinic);
-            log.info("[Metot : {}] - {} varlığı kaydedildi" ,methodName,clinic.getId());
+            log.info("[Metot : {}] - {} numaralı id'ye sahip klinik varlığı kaydedildi" ,methodName,clinic.getId());
 
         }catch (Exception exception){
             log.error("[Metot : - {}] - {} adına sahip klinik varlığını kaydederken hata oluştu : {}",methodName,uppercaseClinicName,exception.getMessage());
@@ -58,5 +63,35 @@ public class ClinicServiceImpl implements ClinicService {
                 .id(clinic.getId())
                 .name(clinic.getName())
                 .build();
+    }
+
+    @Override
+    public void createExcelClinic(List<ClinicResponse> clinicResponseList) {
+        String methodName = new Object() {}.getClass().getEnclosingMethod().getName();
+
+        ObjectMapper mapper = new ObjectMapper();
+        List<ClinicResponse> clinicList = mapper.convertValue(clinicResponseList, new TypeReference<List<ClinicResponse>>() {});
+
+        for (ClinicResponse clinicResponse : clinicList){
+
+            String uppercaseClinicName = clinicResponse.getName().toUpperCase();
+
+            boolean clinicExists = clinicRepository.existsByName(uppercaseClinicName);
+            if (clinicExists){
+                log.error("[Metot : {}] - {} adına sahip klinik zaten mevcut", methodName,uppercaseClinicName );
+            }else {
+                Clinic clinic = new Clinic();
+                try {
+                    clinic.setId(clinicResponse.getId());
+                    clinic.setName(uppercaseClinicName);
+                    clinicRepository.save(clinic);
+                    log.info("[Metot : {}] - {} numaralı id'ye sahip klinik varlığı kaydedildi" ,methodName,clinicResponse.getId());
+                }catch (Exception exception){
+                    log.error("[Metot : - {}] - {} adına sahip klinik varlığını kaydederken hata oluştu : {}",methodName,uppercaseClinicName,exception.getMessage());
+                }
+            }
+        }
+
+
     }
 }

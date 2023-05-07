@@ -1,5 +1,7 @@
 package com.rasitesdmr.hospitalservice.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rasitesdmr.hospitalservice.exception.AlreadyAvailableException;
 import com.rasitesdmr.hospitalservice.exception.BadRequestException;
 import com.rasitesdmr.hospitalservice.exception.RegistrationException;
@@ -8,9 +10,12 @@ import com.rasitesdmr.hospitalservice.repository.DoctorRepository;
 import kafka.model.Doctor;
 import kafka.model.dto.request.DoctorRequest;
 import kafka.model.dto.response.DoctorResponse;
+import kafka.model.dto.response.HospitalResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -60,5 +65,36 @@ public class DoctorServiceImpl implements DoctorService {
                 .phoneNumber(doctor.getPhoneNumber())
                 .profession(doctor.getProfession())
                 .build();
+    }
+
+    @Override
+    public void createExcelDoctor(List<DoctorResponse> doctorResponseList) {
+        String methodName = new Object() {}.getClass().getEnclosingMethod().getName();
+
+        ObjectMapper mapper = new ObjectMapper();
+        List<DoctorResponse> doctorList = mapper.convertValue(doctorResponseList, new TypeReference<List<DoctorResponse>>() {});
+
+        for (DoctorResponse doctorResponse : doctorList){
+
+            boolean doctorExists = doctorRepository.existsById(doctorResponse.getIdentityNumber());
+            if (doctorExists){
+                log.error("[Metot : {}] - {} kimlik numarasına sahip doktor zaten mevcut", methodName,doctorResponse.getIdentityNumber());
+            }else {
+                Doctor doctor = new Doctor();
+                try {
+                    doctor.setIdentityNumber(doctorResponse.getIdentityNumber());
+                    doctor.setFirstName(doctorResponse.getFirstName().toUpperCase());
+                    doctor.setLastName(doctorResponse.getLastName().toUpperCase());
+                    doctor.setEmail(doctorResponse.getEmail());
+                    doctor.setDateOfBirth(doctorResponse.getDateOfBirth());
+                    doctor.setPhoneNumber(doctorResponse.getPhoneNumber());
+                    doctor.setProfession(doctorResponse.getProfession());
+                    doctorRepository.save(doctor);
+                    log.info("[Metot : {}] - {} kimlik numarasına sahip doktor varlığı kaydedildi. ",methodName,doctorResponse.getIdentityNumber());
+                }catch (Exception exception){
+                    log.error("[Metot :  {}] - {} kimlik numarasına sahip doktor varlığı kaydedilirken hata oluştu : {}",methodName,doctorResponse.getIdentityNumber(),exception.getMessage());
+                }
+            }
+        }
     }
 }
