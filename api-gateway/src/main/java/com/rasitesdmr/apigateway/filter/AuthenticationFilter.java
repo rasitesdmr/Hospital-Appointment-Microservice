@@ -38,8 +38,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
         requestPathControlMap.add("/doctorClinicRelationship/associateDoctorWithClinic", "ROLE_ADMIN");
         requestPathControlMap.add("/doctorHospitalRelationship/associateDoctorWithHospital", "ROLE_ADMIN");
         requestPathControlMap.add("/hospitalClinicRelationship/associateHospitalWithClinic", "ROLE_ADMIN");
-//        requestPathControlMap.add("/appointment/createAppointment", "ROLE_USER");
-//        requestPathControlMap.add("/excel/convertExcelToModel", "ROLE_ADMIN");
+        requestPathControlMap.add("/excel/processSingleExcelFile", "ROLE_ADMIN");
 //        requestPathControlMap.add("/appointment/getAllCityList", "ROLE_USER");
 //        requestPathControlMap.add("/appointment/getHospitalsByCityName", "ROLE_USER");
 //        requestPathControlMap.add("/appointment/getClinicsByHospitalName", "ROLE_USER");

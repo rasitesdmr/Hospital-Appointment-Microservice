@@ -22,9 +22,6 @@ pipeline {
                 dir('appointment-service') {
                     sh 'mvn clean package -DskipTests'
                 }
-                dir('client') {
-                    sh 'mvn clean package -DskipTests'
-                }
                 dir('eureka-server') {
                     sh 'mvn clean package -DskipTests'
                 }
@@ -34,7 +31,7 @@ pipeline {
                 dir('hospital-service') {
                     sh 'mvn clean package -DskipTests'
                 }
-                dir('jwt-service') {
+                dir('security-service') {
                     sh 'mvn clean package -DskipTests'
                 }
             }
@@ -43,7 +40,7 @@ pipeline {
             steps{
                 script{
                     withCredentials([usernameColonPassword(credentialsId: 'rasitesdmr1486', variable: 'rasitesdmr1486')]) {
-                        def packageNames = ['api-gateway', 'appointment-service', 'client','eureka-server','excel-service','hospital-service','jwt-service']
+                        def packageNames = ['api-gateway', 'appointment-service','eureka-server','excel-service','hospital-service','security-service']
                         packageNames.each { packageName ->
                             def imageName = "rasitesdmr1486/rabyd-${packageName}:latest"
                             dir("${packageName}") {

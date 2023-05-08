@@ -1,0 +1,206 @@
+version: '3.8'
+services:
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5050:80"
+    networks:
+      - comment
+
+  security-database:
+    container_name: security-database
+    image: postgres:15.2
+    ports:
+      - "5433:5432"
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: user
+    networks:
+      - comment
+
+
+  hospital-database:
+    container_name: hospital-database
+    image: postgres:15.2
+    ports:
+      - "5434:5432"
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: hospital
+    networks:
+      - comment
+
+  appointment-database:
+    container_name: appointment-database
+    image: postgres:15.2
+    ports:
+      - "5437:5432"
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: appointment
+    networks:
+      - comment
+
+
+  kafka:
+    container_name: kafka
+    image: confluentinc/cp-kafka:6.0.9
+    restart: always
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "1"
+      KAFKA_DELETE_TOPIC_ENABLE: "true"
+      KAFKA_ADVERTISED_HOST_NAME:
+    networks:
+      - comment
+
+  zookeeper:
+    container_name: zookeeper
+    image: confluentinc/cp-zookeeper:5.4.9
+    restart: always
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+    networks:
+      - comment
+
+  kafdrop:
+    image: obsidiandynamics/kafdrop
+    container_name: kafdrop
+    restart: always
+    depends_on:
+      - zookeeper
+      - kafka
+    ports:
+      - "9000:9000"
+    environment:
+      KAFKA_BROKER_CONNECT: kafka:29092
+    networks:
+      - comment
+
+  eureka:
+    image: rasitesdmr1486/rabyd-eureka-server:latest
+    restart: always
+    container_name: eureka
+    ports:
+      - "8761:8761"
+    environment:
+      - EUREKA_HOST_NAME
+    networks:
+      - comment
+
+  api-gateway:
+    image: rasitesdmr1486/rabyd-api-gateway:latest
+    restart: always
+    container_name: api-gateway
+    depends_on:
+      - eureka
+    ports:
+      - "9999:9999"
+    environment:
+      - GATEWAY_EUREKA_HOST
+      - GATEWAY_EUREKA_PORT
+    networks:
+      - comment
+
+  security-service:
+    image: rasitesdmr1486/rabyd-security-service:latest
+    restart: always
+    container_name: security-service
+    depends_on:
+      - eureka
+      - security-database
+      - kafka
+    ports:
+      - "1006:1006"
+    environment:
+      - JWT_EUREKA_HOST
+      - JWT_EUREKA_PORT
+      - JWT_POSTGRES_HOST
+      - JWT_POSTGRES_PORT
+      - JWT_POSTGRES_DB
+      - JWT_POSTGRES_USER
+      - JWT_POSTGRES_PASSWORD
+      - JWT_KAFKA_HOST
+    networks:
+      - comment
+
+  hospital-service:
+    image: rasitesdmr1486/rabyd-hospital-service:latest
+    restart: always
+    container_name: hospital-service
+    depends_on:
+      - eureka
+      - hospital-database
+    ports:
+      - "1007:1007"
+    environment:
+      - HOSPITAL_EUREKA_HOST
+      - HOSPITAL_EUREKA_PORT
+      - HOSPITAL_POSTGRES_HOST
+      - HOSPITAL_POSTGRES_PORT
+      - HOSPITAL_POSTGRES_DB
+      - HOSPITAL_POSTGRES_USER
+      - HOSPITAL_POSTGRES_PASSWORD
+      - HOSPITAL_KAFKA_HOST
+    networks:
+      - comment
+
+  appointment-service:
+    image: rasitesdmr1486/rabyd-appointment-service:latest
+    restart: always
+    container_name: appointment-service
+    depends_on:
+      - eureka
+      - appointment-database
+    ports:
+      - "1009:1009"
+    environment:
+      - APPOINTMENT_EUREKA_HOST
+      - APPOINTMENT_EUREKA_PORT
+      - APPOINTMENT_POSTGRES_HOST
+      - APPOINTMENT_POSTGRES_PORT
+      - APPOINTMENT_POSTGRES_DB
+      - APPOINTMENT_POSTGRES_USER
+      - APPOINTMENT_POSTGRES_PASSWORD
+      - APPOINTMENT_KAFKA_HOST
+    networks:
+      - comment
+
+  excel-service:
+    image: rasitesdmr1486/rabyd-excel-service:latest
+    restart: always
+    container_name: excel-service
+    depends_on:
+      - eureka
+      - kafka
+    ports:
+      - "1010:1010"
+    environment:
+      - EXCEL_EUREKA_HOST
+      - EXCEL_EUREKA_PORT
+      - EXCEL_KAFKA_HOST
+    networks:
+      - comment
+
+networks:
+  comment:
+    driver: bridge
