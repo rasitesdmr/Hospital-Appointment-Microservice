@@ -9,4 +9,6 @@ public interface HospitalService {
 
     HospitalResponse createHospital (HospitalRequest hospitalRequest);
     void createExcelHospital(List<HospitalResponse> hospitalResponseList);
+
+    List<HospitalResponse> getHospitalListByCityName(String cityName);
 }

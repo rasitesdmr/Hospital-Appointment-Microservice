@@ -9,4 +9,6 @@ public interface CityService {
     CityResponse createCity (CityRequest cityRequest);
 
     void createExcelCity(List<CityResponse> cityResponseList);
+
+    List<CityResponse> getCityList();   // Randevu sistemi için şehirleri çekmek için kullanılacak
 }

@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -84,5 +85,21 @@ public class CityServiceImpl implements CityService {
 
 
         }
+    }
+
+    @Override
+    public List<CityResponse> getCityList() {
+
+        List<City> cityList = cityRepository.findAll();
+        List<CityResponse> cityResponseList = new ArrayList<>(cityList.size());
+
+        for (City city : cityList){
+            CityResponse cityResponse = new CityResponse();
+            cityResponse.setId(city.getId());
+            cityResponse.setName(city.getName());
+            cityResponseList.add(cityResponse);
+        }
+
+        return cityResponseList;
     }
 }

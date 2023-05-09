@@ -8,23 +8,29 @@ import com.rasitesdmr.hospitalservice.exception.NotAvailableException;
 import com.rasitesdmr.hospitalservice.exception.RegistrationException;
 import com.rasitesdmr.hospitalservice.repository.CityRepository;
 import com.rasitesdmr.hospitalservice.repository.HospitalRepository;
-import kafka.model.Clinic;
+import kafka.model.City;
 import kafka.model.Hospital;
 import kafka.model.dto.request.HospitalRequest;
 import kafka.model.dto.response.HospitalResponse;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor
 public class HospitalServiceImpl implements HospitalService {
 
     private final HospitalRepository hospitalRepository;
     private final CityRepository cityRepository;
+
+    public HospitalServiceImpl(HospitalRepository hospitalRepository, CityRepository cityRepository) {
+        this.hospitalRepository = hospitalRepository;
+        this.cityRepository = cityRepository;
+    }
 
     @Override
     public HospitalResponse createHospital(HospitalRequest hospitalRequest) {
@@ -104,5 +110,16 @@ public class HospitalServiceImpl implements HospitalService {
 
 
         }
+    }
+
+    @Override
+    public List<HospitalResponse> getHospitalListByCityName(String cityName) {
+        City city = cityRepository.findByName(cityName);
+        List<Hospital> hospitalList = city.getHospitals();
+        Set<Hospital> hospitalSet = new HashSet<>(hospitalList);
+        List<Hospital> filteredHospitalList = new ArrayList<>(hospitalSet);
+
+
+        return null;
     }
 }

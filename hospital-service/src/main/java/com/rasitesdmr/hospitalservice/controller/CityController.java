@@ -7,10 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/city")
@@ -22,6 +21,11 @@ public class CityController {
     @PostMapping("/createCity")
     public ResponseEntity<CityResponse> createCity(@RequestBody CityRequest cityRequest) {
         return new ResponseEntity<>(cityService.createCity(cityRequest), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/getCityList")
+    public ResponseEntity<List<CityResponse>> getCityList(){
+        return new ResponseEntity<>(cityService.getCityList(),HttpStatus.OK);
     }
 
 
