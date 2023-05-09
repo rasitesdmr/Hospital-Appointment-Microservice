@@ -1,0 +1,92 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+
+.body_fontCard {
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    background: whitesmoke;
+    align-items: center;
+    min-height: 100vh;
+    background: url('../images/hospital.jpg');
+    background-size: cover;
+    background-position: center;
+    color: #000;
+}
+.select_abc {
+    margin-right: 100% ;
+    border: 100vh;
+}
+
+.container {
+    display: flex;
+  
+}
+
+.card {
+    height: 570px;
+    margin: 50px;
+    box-shadow: 5px 5px 20px black;
+    overflow: hidden;
+}
+
+
+img {
+    height: 570px;
+    width: 350px;
+    border-radius: 3px;
+}
+
+.intro {
+    height: 70px;
+    width: 350px;
+    padding: 1px;
+    box-sizing: border-box;
+    position: absolute;
+    bottom: 0px;
+    background: rgb(27, 27, 27, .5);
+    color: white;
+    transition: .5s;
+}
+
+h1{
+    margin: 10px;
+    font-size: 40px;
+}
+.p_font {
+    font-size: 20px;
+    margin: 10px;
+    visibility: hidden;
+    opacity: 0;
+}
+
+span {
+    font-weight: bold;
+}
+
+.card:hover {
+    cursor: pointer;
+}
+
+.card:hover .intro {
+    height: 220px;
+    bottom: 240px;
+    background: black;
+}
+
+.card:hover .p_font {
+    opacity: 1;
+    visibility: visible;
+
+}
+
+.card:hover img {
+    transform: scale(1.1) rotate(-3deg);
+}
+
+
+

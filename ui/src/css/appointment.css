@@ -1,0 +1,41 @@
+select {
+    width: 300px;
+    padding: 12px;
+    border: 0 !important;
+    background-color: #daae6d;
+    /* needed */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    /* SVG background image */
+    
+      
+      background-position: calc(100% - 1.3em) center;
+      background-repeat: no-repeat;
+      
+  }
+  option {
+    text-align: center;
+  }
+  @font-face {
+    font-family: 'Open Sans';
+    src: url('../fonts/SignikaNegative-VariableFont_wght.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  select::-ms-expand {
+      display: none;
+  }
+
+  .select_a {
+    background-color: #44786a;
+  }
+  .select_b {
+    background-color: #346665;
+  }
+  .select_c {
+    background-color: #daae6d;
+  }
+  .select_d {
+    background-color: #8f704b;
+  }
