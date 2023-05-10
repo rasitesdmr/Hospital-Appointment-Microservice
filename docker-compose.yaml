@@ -132,14 +132,14 @@ services:
     ports:
       - "1006:1006"
     environment:
-      - JWT_EUREKA_HOST
-      - JWT_EUREKA_PORT
-      - JWT_POSTGRES_HOST
-      - JWT_POSTGRES_PORT
-      - JWT_POSTGRES_DB
-      - JWT_POSTGRES_USER
-      - JWT_POSTGRES_PASSWORD
-      - JWT_KAFKA_HOST
+      - SECURITY_EUREKA_HOST
+      - SECURITY_EUREKA_PORT
+      - SECURITY_POSTGRES_HOST
+      - SECURITY_POSTGRES_PORT
+      - SECURITY_POSTGRES_DB
+      - SECURITY_POSTGRES_USER
+      - SECURITY_POSTGRES_PASSWORD
+      - SECURITY_KAFKA_HOST
     networks:
       - comment
 
