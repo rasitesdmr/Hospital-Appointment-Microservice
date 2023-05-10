@@ -56,7 +56,6 @@ pipeline {
            steps{
                  sh 'docker-compose pull'
                  sh 'docker-compose up -d'
-                 sh 'docker rmi $(docker images -f "dangling=true" -q)'
            }
         }
 
