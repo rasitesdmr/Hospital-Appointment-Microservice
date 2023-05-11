@@ -118,8 +118,15 @@ public class HospitalServiceImpl implements HospitalService {
         List<Hospital> hospitalList = city.getHospitals();
         Set<Hospital> hospitalSet = new HashSet<>(hospitalList);
         List<Hospital> filteredHospitalList = new ArrayList<>(hospitalSet);
-
-
-        return null;
+        List<HospitalResponse> hospitalResponseList = new ArrayList<>();
+        for (Hospital hospital : filteredHospitalList){
+            HospitalResponse hospitalResponse = new HospitalResponse();
+            hospitalResponse.setId(hospital.getId());
+            hospitalResponse.setName(hospital.getName());
+            hospitalResponse.setAddress(hospital.getAddress());
+            hospitalResponse.setCityId(hospital.getCity().getId());
+            hospitalResponseList.add(hospitalResponse);
+        }
+        return hospitalResponseList;
     }
 }

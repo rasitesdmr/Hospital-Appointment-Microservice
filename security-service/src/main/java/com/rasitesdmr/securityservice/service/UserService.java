@@ -7,7 +7,8 @@ import kafka.model.dto.response.UserResponse;
 
 public interface UserService {
 
-    UserResponse createUser(UserRequest userRequest);
+    UserResponse createPatientUser(UserRequest userRequest);
+    UserResponse createDoctorUser(UserRequest userRequest);
 
     UserLoginResponse userLogin(UserLoginRequest userLoginRequest);
 

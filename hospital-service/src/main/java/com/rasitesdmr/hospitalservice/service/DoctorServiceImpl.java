@@ -7,6 +7,7 @@ import com.rasitesdmr.hospitalservice.exception.BadRequestException;
 import com.rasitesdmr.hospitalservice.exception.RegistrationException;
 import com.rasitesdmr.hospitalservice.repository.ClinicRepository;
 import com.rasitesdmr.hospitalservice.repository.DoctorRepository;
+import kafka.model.Clinic;
 import kafka.model.Doctor;
 import kafka.model.dto.request.DoctorRequest;
 import kafka.model.dto.response.DoctorResponse;
@@ -15,7 +16,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Slf4j
@@ -96,5 +100,24 @@ public class DoctorServiceImpl implements DoctorService {
                 }
             }
         }
+    }
+
+    @Override
+    public List<DoctorResponse> getDoctorListByClinicName(String clinicName) {
+        Clinic clinic = clinicRepository.findByName(clinicName);
+        Set<Doctor> doctorList = clinic.getDoctors();
+        List<DoctorResponse> doctorResponseList = new ArrayList<>();
+        for (Doctor doctor : doctorList){
+            DoctorResponse doctorResponse = new DoctorResponse();
+            doctorResponse.setIdentityNumber(doctor.getIdentityNumber());
+            doctorResponse.setFirstName(doctor.getFirstName());
+            doctorResponse.setLastName(doctor.getLastName());
+            doctorResponse.setEmail(doctor.getEmail());
+            doctorResponse.setProfession(doctor.getProfession());
+            doctorResponse.setPhoneNumber(doctor.getPhoneNumber());
+            doctorResponse.setDateOfBirth(doctor.getDateOfBirth());
+            doctorResponseList.add(doctorResponse);
+        }
+    return doctorResponseList;
     }
 }

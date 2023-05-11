@@ -24,7 +24,7 @@ public class CityController {
     }
 
     @GetMapping("/getCityList")
-    public ResponseEntity<List<CityResponse>> getCityList(){
+    public ResponseEntity<List<CityResponse>> getCityList(){  // Randevu sistemi için şehirleri çeker.
         return new ResponseEntity<>(cityService.getCityList(),HttpStatus.OK);
     }
 

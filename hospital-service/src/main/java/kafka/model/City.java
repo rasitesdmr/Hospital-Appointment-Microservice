@@ -2,6 +2,8 @@ package kafka.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.List;
@@ -24,6 +26,7 @@ public class City {
     @Column(name = "adı")
     private String name;
 
-    @OneToMany(mappedBy = "city")
+    @OneToMany(mappedBy = "city",fetch = FetchType.LAZY)
+    @Fetch(FetchMode.JOIN)
     private List<Hospital> hospitals;
 }

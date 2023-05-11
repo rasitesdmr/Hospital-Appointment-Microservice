@@ -24,9 +24,9 @@ public class Clinic {
     @Column(name = "adı")
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "clinics")
+    @ManyToMany(mappedBy = "clinics",fetch = FetchType.LAZY)
     private Set<Hospital>hospitals;
 
-    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "clinics")
+    @ManyToMany(mappedBy = "clinics",fetch = FetchType.LAZY)
     private Set<Doctor>doctors;
 }

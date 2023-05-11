@@ -9,4 +9,6 @@ public interface ClinicService {
 
     ClinicResponse createClinic(ClinicRequest clinicRequest);
     void createExcelClinic(List<ClinicResponse> clinicResponseList);
+
+    List<ClinicResponse> getClinicListByHospitalName(String hospitalName);
 }

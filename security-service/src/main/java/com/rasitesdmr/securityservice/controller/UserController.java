@@ -19,9 +19,14 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/register")
-    public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest) {
-        return new ResponseEntity<>(userService.createUser(userRequest), HttpStatus.CREATED);
+    @PostMapping("/patientRegister")
+    public ResponseEntity<UserResponse> createPatientUser(@RequestBody UserRequest userRequest) {
+        return new ResponseEntity<>(userService.createPatientUser(userRequest), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/doctorRegister")
+    public ResponseEntity<UserResponse> createDoctorUser(@RequestBody UserRequest userRequest) {
+        return new ResponseEntity<>(userService.createDoctorUser(userRequest), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")

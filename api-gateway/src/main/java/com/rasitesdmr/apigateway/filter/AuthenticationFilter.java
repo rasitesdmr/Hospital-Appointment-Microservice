@@ -39,6 +39,14 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
         requestPathControlMap.add("/doctorHospitalRelationship/associateDoctorWithHospital", "ROLE_ADMIN");
         requestPathControlMap.add("/hospitalClinicRelationship/associateHospitalWithClinic", "ROLE_ADMIN");
         requestPathControlMap.add("/excel/processSingleExcelFile", "ROLE_ADMIN");
+
+        requestPathControlMap.addAll("/city/getCityList","ROLE_PATIENT");
+        requestPathControlMap.addAll("/hospital/getHospitalListByCityName","ROLE_PATIENT");
+        requestPathControlMap.addAll("/clinic/getClinicListByHospitalName","ROLE_PATIENT");
+        requestPathControlMap.addAll("/doctor/getDoctorListByClinicName","ROLE_PATIENT");
+
+
+
 //        requestPathControlMap.add("/appointment/getAllCityList", "ROLE_USER");
 //        requestPathControlMap.add("/appointment/getHospitalsByCityName", "ROLE_USER");
 //        requestPathControlMap.add("/appointment/getClinicsByHospitalName", "ROLE_USER");
@@ -70,16 +78,20 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
 
                 var identityNumber = jwtUtil.getIdentityNumberFromToken(authHeader);
                 List<String> roles = jwtUtil.getRolesFromToken(authHeader);
-                String role = roles.stream().findFirst().get();
-                List<String> key = requestPathControlMap.get(exchange.getRequest().getPath().toString());
 
-                if (key == null) {
-                    log.error("[Metot : {}] - Yalnızca admin yetkisi olan kullanıcılar bu işlemi gerçekleştirebilir",methodName);
-                    return Mono.error(new UnauthorizedException("Yalnızca admin yetkisi olan kullanıcılar bu işlemi gerçekleştirebilir"));
+                boolean matchStatus = false;
+
+                for (String role : roles) {
+                    List<String> key = requestPathControlMap.get(exchange.getRequest().getPath().toString());
+                    if (key.contains(role)) {
+                        matchStatus = true;
+                        break;
+                    }
                 }
-                if (!key.contains(role)) {
-                    log.error("[Metot : {}] - Yalnızca admin yetkisi olan kullanıcılar bu işlemi gerçekleştirebilir",methodName);
-                    return Mono.error(new UnauthorizedException("Yalnızca admin yetkisi olan kullanıcılar bu işlemi gerçekleştirebilir"));
+
+                if (!matchStatus) {
+                    log.error("[Metot : {}] - Rol yetki hatası ",methodName);
+                    return Mono.error(new UnauthorizedException("Rol yetki hatası"));
                 }
 
                 ServerHttpRequest modifiedRequest = exchange.getRequest().mutate()

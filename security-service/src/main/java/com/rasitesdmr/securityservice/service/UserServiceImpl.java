@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
     private final TokenCreation tokenCreation;
 
     @Override
-    public UserResponse createUser(UserRequest userRequest) {
+    public UserResponse createPatientUser(UserRequest userRequest) {
         String methodName = new Object() {}.getClass().getEnclosingMethod().getName();
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         boolean isIdentityNumberPresent = userRepository.existsById(userRequest.getIdentityNumber());
@@ -89,13 +89,65 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserResponse createDoctorUser(UserRequest userRequest) {
+        String methodName = new Object() {}.getClass().getEnclosingMethod().getName();
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        boolean isIdentityNumberPresent = userRepository.existsById(userRequest.getIdentityNumber());
+        if (isIdentityNumberPresent) {
+            log.error("[Metot: {}] - Kimlik numarasına sahip kullanıcı zaten mevcut : {}", methodName, userRequest.getIdentityNumber());
+            throw new AlreadyAvailableException(userRequest.getIdentityNumber() + " kimlik numarasına sahip kullanıcı zaten mevcut !!!");
+        }
+        boolean isEmailAddressPresent = userRepository.existsByEmail(userRequest.getEmail());
+        if (isEmailAddressPresent) {
+            log.error("[Metot: {}] - Mail adresi zaten mevcut : {}", methodName, userRequest.getEmail());
+            throw new AlreadyAvailableException(userRequest.getEmail() + " mail adresi zaten mevcut !!!");
+        }
+        Role patientRole = roleRepository.findByName(ERole.ROLE_PATIENT);
+        Role doctorRole = roleRepository.findByName(ERole.ROLE_DOCTOR);
+        List<Role> roleList = new ArrayList<>();
+        roleList.add(patientRole);
+        roleList.add(doctorRole);
+
+        User user = new User();
+        try{
+            user.setIdentityNumber(userRequest.getIdentityNumber());
+            user.setFirstName(userRequest.getFirstName());
+            user.setLastName(userRequest.getLastName());
+            user.setEmail(userRequest.getEmail());
+            user.setPassword(bCryptPasswordEncoder.encode(RegexUtils.passwordRegex(userRequest.getPassword())));
+            user.setRoleList(roleList);
+            userRepository.save(user);
+        }catch (Exception exception){
+            log.error("[Metot: {}] - Kullanıcı kayıt sırasında hata oluştu : {}", methodName ,exception.getMessage());
+            throw new RegistrationException("Kullanıcı kayıt sırasında hata oluştu : " + exception.getMessage());
+        }
+        UserKafkaRequest userKafkaRequest = UserKafkaRequest.builder()
+                .identityNumber(user.getIdentityNumber())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .build();
+        kafkaProducer.sendUserToKafka(userKafkaRequest);
+        log.info("[Metot: {}] - {} kimlik numarasına sahip kullanıcı bilgileri kafka ile kuyruğa gönderildi",methodName,userKafkaRequest.getIdentityNumber());
+
+        return UserResponse.builder()
+                .identityNumber(user.getIdentityNumber())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .build();
+
+    }
+
+    @Override
     public UserLoginResponse userLogin(UserLoginRequest userLoginRequest) {
         String methodName = new Object() {}.getClass().getEnclosingMethod().getName();
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         boolean isIdentityNumberPresent = userRepository.existsById(userLoginRequest.getIdentityNumber());
         if (!isIdentityNumberPresent){
             log.error("[Metot : {}] - Geçersiz kimlik numarası : {}" , methodName,userLoginRequest.getIdentityNumber());
-            throw new InvalidException(" Geçersiz kimlik numarası : " + userLoginRequest.getIdentityNumber());
+            throw new InvalidException("Geçersiz kimlik numarası : " + userLoginRequest.getIdentityNumber());
         }
         User user = userRepository.findById(userLoginRequest.getIdentityNumber()).get();
         boolean isPasswordMatch = passwordEncoder.matches(userLoginRequest.getPassword(),user.getPassword());
