@@ -164,26 +164,26 @@ services:
     networks:
       - comment
 
-#  appointment-service:
-#    image: rasitesdmr1486/rabyd-appointment-service:latest
-#    restart: always
-#    container_name: appointment-service
-#    depends_on:
-#      - eureka
-#      - appointment-database
-#    ports:
-#      - "1009:1009"
-#    environment:
-#      - APPOINTMENT_EUREKA_HOST
-#      - APPOINTMENT_EUREKA_PORT
-#      - APPOINTMENT_POSTGRES_HOST
-#      - APPOINTMENT_POSTGRES_PORT
-#      - APPOINTMENT_POSTGRES_DB
-#      - APPOINTMENT_POSTGRES_USER
-#      - APPOINTMENT_POSTGRES_PASSWORD
-#      - APPOINTMENT_KAFKA_HOST
-#    networks:
-#      - comment
+  appointment-service:
+    image: rasitesdmr1486/rabyd-appointment-service:latest
+    restart: always
+    container_name: appointment-service
+    depends_on:
+      - eureka
+      - appointment-database
+    ports:
+      - "1009:1009"
+    environment:
+      - APPOINTMENT_EUREKA_HOST
+      - APPOINTMENT_EUREKA_PORT
+      - APPOINTMENT_POSTGRES_HOST
+      - APPOINTMENT_POSTGRES_PORT
+      - APPOINTMENT_POSTGRES_DB
+      - APPOINTMENT_POSTGRES_USER
+      - APPOINTMENT_POSTGRES_PASSWORD
+      - APPOINTMENT_KAFKA_HOST
+    networks:
+      - comment
 
   excel-service:
     image: rasitesdmr1486/rabyd-excel-service:latest
