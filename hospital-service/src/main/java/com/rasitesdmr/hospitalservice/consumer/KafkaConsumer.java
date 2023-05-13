@@ -2,7 +2,6 @@ package com.rasitesdmr.hospitalservice.consumer;
 
 import com.rasitesdmr.hospitalservice.service.*;
 import kafka.model.dto.response.*;
-import kafka.model.response.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.PartitionOffset;
