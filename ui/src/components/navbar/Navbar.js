@@ -34,7 +34,7 @@ function Navbar() {
                 </button>
                 <button
                   className="btnLogin-popup"
-                  onClick={(e) => navigate("/api/profile")}
+                  onClick={(e) => navigate("/api/about")}
                 >
                   Profil
                 </button>

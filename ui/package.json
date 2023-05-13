@@ -31,6 +31,7 @@
     "react-spinners": "^0.13.8",
     "react-toastify": "^9.1.2",
     "styled-components": "^5.3.9",
+    "sweetalert2": "^11.7.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

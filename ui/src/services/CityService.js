@@ -1,7 +1,7 @@
 import axios from "axios";
 import AuthService from "./AuthService";
 
-const base_url = "http://34.125.26.36:9999/proxy-city";
+const base_url = "http://93.177.102.198:9999/proxy-city";
 
 class CityService {
   getCityList() {

@@ -8,7 +8,7 @@ import PropagateLoader from "react-spinners/PropagateLoader";
 // console.log(typeof identityNumber);
 // console.log(decode);
 // console.log(localStorage.getItem("tc"));
-function NavbarLogin() {
+function NavbarLoginWithDoctor() {
   const [identityNumber, setIdentityNumber] = useState("");
   const [password, setPassword] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
@@ -77,7 +77,7 @@ function NavbarLogin() {
             </span>
 
             <div className="form-box login">
-              <h2>Giriş</h2>
+              <h2>Yetkili Giriş</h2>
               <form action="#">
                 <div className="input-box">
                   <span className="icon">
@@ -122,16 +122,8 @@ function NavbarLogin() {
                 </button>
                 <div className="login-register">
                   <p>
-                    Yeni Hesap Oluştur
-                    <Link to="/api/register" style={{ float: "right" }}>
-                      Yeni Hesap
-                    </Link>
-                  </p>
-                </div>
-                <div className="login-register">
-                  <p>
-                    <Link to="/api/login/doctor" style={{ float: "right" }}>
-                      Yetkili Giriş
+                    <Link to="/api/login" style={{ float: "right" }}>
+                      Kullanıcı Giriş
                     </Link>
                   </p>
                 </div>
@@ -143,4 +135,4 @@ function NavbarLogin() {
     </div>
   );
 }
-export default NavbarLogin;
+export default NavbarLoginWithDoctor;

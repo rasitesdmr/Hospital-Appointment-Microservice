@@ -6,6 +6,8 @@ import NavbarLogin from "./components/navbar/NavbarLogin";
 import HospitalList from "./components/hospital/HospitalList";
 import CityCreate from "./components/city/CityCreate";
 import AppointmentForm from "./components/appointment/AppointmentForm";
+import About from "./components/profile/About";
+import NavbarLoginWithDoctor from "./components/navbar/NavbarLoginWithDoctor";
 
 function App() {
   return (
@@ -22,11 +24,13 @@ function App() {
             : () => <NavbarLogin />}
         </Route> */}
         <Route path="/api/login" element={<NavbarLogin />} />
+        <Route path="/api/login/doctor" element={<NavbarLoginWithDoctor />} />
         <Route path="/api/register" element={<NavbarRegister />} />
         <Route path="/api/hospitals" element={<HospitalList />} />
         <Route path="/api/cities" element={<CityList />} />
         <Route path="/api/city/create" element={<CityCreate />} />
         <Route path="/api/selection" element={<AppointmentForm />} />
+        <Route path="/api/about" element={<About />} />
       </Routes>
     </div>
   );
