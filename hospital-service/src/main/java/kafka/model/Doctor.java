@@ -38,10 +38,10 @@ public class Doctor {
     @Column(name = "uzmanlık_alanı")
     private String profession;
 
-    @ManyToMany(mappedBy = "doctors",fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "doctors",fetch = FetchType.EAGER)
     private Set<Hospital> hospitals;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "doktor_klinik",
             joinColumns = {

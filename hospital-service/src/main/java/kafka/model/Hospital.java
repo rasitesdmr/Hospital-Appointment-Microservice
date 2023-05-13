@@ -31,7 +31,7 @@ public class Hospital {
     @JoinColumn(name = "şehir_id")
     private City city;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "hastane_doktor",
             joinColumns = {
@@ -43,7 +43,7 @@ public class Hospital {
     )
     private Set<Doctor> doctors;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "hastane_klinik",
             joinColumns = {

@@ -1,4 +1,4 @@
-package kafka.model.dto;
+package kafka.model;
 
 import jakarta.persistence.*;
 import lombok.*;

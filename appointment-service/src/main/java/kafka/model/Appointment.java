@@ -1,9 +1,8 @@
-package kafka.model.dto;
+package kafka.model;
 
 import com.rasitesdmr.appointmentservice.enums.EStatus;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Getter
@@ -12,11 +11,10 @@ import org.hibernate.annotations.GenericGenerator;
 @NoArgsConstructor
 @Builder
 @Table(name = "appointment")
-public class Appointment extends Auditable{
+public class Appointment extends Auditable {
 
     @Id
-    @GeneratedValue(generator = "random_id_generator")
-    @GenericGenerator(name = "random_id_generator", strategy = "com.rasitesdmr.appointmentservice.util.RandomIdGenerator")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 

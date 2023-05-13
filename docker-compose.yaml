@@ -39,18 +39,18 @@ services:
     networks:
       - comment
 
-#  appointment-database:
-#    container_name: appointment-database
-#    image: postgres:15.2
-#    ports:
-#      - "5437:5432"
-#    restart: always
-#    environment:
-#      POSTGRES_USER: root
-#      POSTGRES_PASSWORD: password
-#      POSTGRES_DB: appointment
-#    networks:
-#      - comment
+  appointment-database:
+    container_name: appointment-database
+    image: postgres:15.2
+    ports:
+      - "5437:5432"
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: appointment
+    networks:
+      - comment
 
 
   kafka:

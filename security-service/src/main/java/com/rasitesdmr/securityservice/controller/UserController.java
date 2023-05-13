@@ -2,7 +2,6 @@ package com.rasitesdmr.securityservice.controller;
 
 
 import com.rasitesdmr.securityservice.service.UserService;
-import kafka.model.User;
 import kafka.model.dto.request.UserLoginRequest;
 import kafka.model.dto.request.UserRequest;
 import kafka.model.dto.response.UserLoginResponse;

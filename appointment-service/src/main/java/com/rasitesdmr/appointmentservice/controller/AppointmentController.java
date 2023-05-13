@@ -20,12 +20,12 @@ public class AppointmentController {
     }
 
     @PostMapping("/appointmentMakingProcess")
-    public void appointmentMakingProcess(@RequestParam(name = "cityId") long cityId,
+    public String appointmentMakingProcess(@RequestParam(name = "cityId") long cityId,
                                                                                  @RequestParam(name = "hospitalId") long hospitalId,
                                                                                  @RequestParam(name = "clinicId") long clinicId,
                                                                                  @RequestParam(name = "doctorIdentityNumber") String doctorIdentityNumber,
                                                                                  @RequestParam(name = "appointmentTime") String appointmentTime,
                                                                                  @RequestParam(name = "appointmentDate") String appointmentDate) {
-        appointmentService.appointmentMakingProcess(cityId,hospitalId,clinicId,doctorIdentityNumber,appointmentDate,appointmentTime);
+       return appointmentService.appointmentMakingProcess(cityId,hospitalId,clinicId,doctorIdentityNumber,appointmentDate,appointmentTime);
     }
 }

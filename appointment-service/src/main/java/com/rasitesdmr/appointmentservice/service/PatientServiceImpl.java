@@ -1,7 +1,7 @@
 package com.rasitesdmr.appointmentservice.service;
 
 import com.rasitesdmr.appointmentservice.repository.PatientRepository;
-import kafka.model.dto.Patient;
+import kafka.model.Patient;
 import kafka.model.dto.request.UserKafkaRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

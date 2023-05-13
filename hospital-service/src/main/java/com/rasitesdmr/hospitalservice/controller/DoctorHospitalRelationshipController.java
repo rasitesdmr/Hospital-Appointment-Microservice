@@ -2,9 +2,7 @@ package com.rasitesdmr.hospitalservice.controller;
 
 import com.rasitesdmr.hospitalservice.service.DoctorHospitalRelationshipService;
 import kafka.model.dto.request.DoctorHospitalRequest;
-import kafka.model.dto.request.HospitalClinicRequest;
 import kafka.model.dto.response.DoctorHospitalResponse;
-import kafka.model.dto.response.HospitalClinicResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

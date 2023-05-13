@@ -7,7 +7,6 @@ import com.rasitesdmr.hospitalservice.exception.BadRequestException;
 import com.rasitesdmr.hospitalservice.exception.RegistrationException;
 import com.rasitesdmr.hospitalservice.repository.ClinicRepository;
 import com.rasitesdmr.hospitalservice.repository.HospitalRepository;
-import kafka.model.City;
 import kafka.model.Clinic;
 import kafka.model.Hospital;
 import kafka.model.dto.request.ClinicRequest;

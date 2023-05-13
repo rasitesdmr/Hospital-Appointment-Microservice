@@ -8,7 +8,6 @@ import com.rasitesdmr.hospitalservice.repository.HospitalRepository;
 import kafka.model.Doctor;
 import kafka.model.Hospital;
 import kafka.model.dto.request.DoctorHospitalRequest;
-import kafka.model.dto.response.DoctorClinicResponse;
 import kafka.model.dto.response.DoctorHospitalResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
