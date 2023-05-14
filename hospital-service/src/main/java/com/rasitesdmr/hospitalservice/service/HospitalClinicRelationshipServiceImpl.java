@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rasitesdmr.hospitalservice.exception.NotAvailableException;
 import com.rasitesdmr.hospitalservice.repository.ClinicRepository;
 import com.rasitesdmr.hospitalservice.repository.HospitalRepository;
+import jakarta.transaction.Transactional;
 import kafka.model.Clinic;
 import kafka.model.Hospital;
 import kafka.model.dto.request.HospitalClinicRequest;
@@ -63,6 +64,7 @@ public class HospitalClinicRelationshipServiceImpl implements HospitalClinicRela
     }
 
     @Override
+    @Transactional
     public void excelToAssociateHospitalWithClinic(List<HospitalClinicResponse> hospitalClinicResponseList) {
         String methodName = new Object() {}.getClass().getEnclosingMethod().getName();
 
