@@ -29,11 +29,9 @@ public class Doctor {
     @Column(name = "doğum_tarihi")
     private String dateOfBirth;
 
-    @Column(name = "telefon_numarası")
-    private String phoneNumber;
-
-    @Column(name = "email")
-    private String email;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "telefon_numarası", referencedColumnName = "telefon_numarası")
+    private DoctorContactInfo contactInfo;
 
     @Column(name = "uzmanlık_alanı")
     private String profession;

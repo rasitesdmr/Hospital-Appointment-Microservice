@@ -91,6 +91,16 @@ public class ExcelServiceImpl implements ExcelService {
                 List<HospitalClinicResponse> hospitalClinicList = ExcelUtils.connectExcelColumnsToModelFields(inputStream,HospitalClinicResponse.class,setterMapping);
                 kafkaProducer.sendHospitalClinicListToQueue(hospitalClinicList);
                 break;
+            case "doctorPhoneNumber.xlsx":
+                setterMapping.put(0,"setIdentityNumber");
+                setterMapping.put(1,"setFirstName");
+                setterMapping.put(2,"setLastName");
+                setterMapping.put(3,"setDateOfBirth");
+                setterMapping.put(4,"setPhoneNumber");
+                setterMapping.put(5,"setEmail");
+                setterMapping.put(6,"setProfession");
+                List<DoctorResponse> doctorPhoneNumber = ExcelUtils.connectExcelColumnsToModelFields(inputStream, DoctorResponse.class,setterMapping);
+                kafkaProducer.sendDoctorPhoneNumberListToQueue(doctorPhoneNumber);
             default:
                 log.error("[Metot - {}] - {} adına sahip dosya işlenmedi",methodName,fileName);
         }

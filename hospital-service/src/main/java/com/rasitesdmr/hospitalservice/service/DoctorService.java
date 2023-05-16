@@ -10,4 +10,6 @@ public interface DoctorService {
     void createExcelDoctor(List<DoctorResponse> doctorResponseList);
 
     List<DoctorResponse> getDoctorListByClinicName(String clinicName);
+
+    String excelAddContactInfoToDoctor(List<DoctorResponse> doctorResponseList);
 }
