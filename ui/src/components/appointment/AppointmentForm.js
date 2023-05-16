@@ -4,6 +4,7 @@ import HospitalService from "../../services/HospitalService";
 import ClinicService from "../../services/ClinicService";
 import DoctorService from "../../services/DoctorService";
 import "../../css/appointment.css";
+import AppointmentService from "../../services/AppointmentService";
 
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -23,11 +24,41 @@ const AppointmentForm = () => {
   const [selectedClinic, setSelectedClinic] = useState("");
   const [doctors, setDoctors] = useState([]);
   const [selectedDoctor, setSelectedDoctor] = useState("");
+  const [selectedDate, setSelectedDate] = useState(dayjs());
+  const [selectedTime, setSelectedTime] = useState(dayjs());
+
+  // console.log(clinics);
+  // console.log(cities);
+
+  console.log(
+    "ŞEHİR" + " " + cities.find((city) => city.name === selectedCity)?.id
+  );
+  console.log(
+    "HASTANE" +
+      " " +
+      hospitals.find((hospital) => hospital.name === selectedHospital)?.id
+  );
+  console.log(
+    "KLİNİK" +
+      " " +
+      clinics.find((clinic) => clinic.name === selectedClinic)?.id
+  );
+  console.log(
+    "DOKTOR" +
+      " " +
+      doctors.find(
+        (doctor) => doctor.firstName + " " + doctor.lastName === selectedDoctor
+      )?.identityNumber
+  );
+  console.log(selectedTime);
+  console.log(selectedDate);
+  // console.log(selectedTime.format("HH:mm"));
+  // console.log(selectedDate.format("YYYY-MM-DD"));
 
   dayjs.locale("tr"); // Locale ayarla
   const localeMap = {
     tr: {
-      date: "DD.MM.YYYY",
+      date: "YYYY.MM.DD",
       time: "HH:mm",
     },
   };
@@ -73,12 +104,39 @@ const AppointmentForm = () => {
   useEffect(() => {
     if (selectedClinic) {
       DoctorService.getDoctorList(selectedClinic)
-        .then((resp) => setDoctors(resp.data))
+        .then((resp) => {
+          console.log(resp.data);
+          setDoctors(resp.data);
+        })
         .catch((error) => {
           console.log("Hata alındı", error);
         });
     }
   }, [selectedClinic]);
+
+  const appointmentSave = () => {
+    const appointment = {
+      cityId: cities.find((city) => city.name === selectedCity)?.id,
+      hospitalId: hospitals.find(
+        (hospital) => hospital.name === selectedHospital
+      )?.id,
+      clinicId: clinics.find((clinic) => clinic.name === selectedClinic)?.id,
+      doctorIdentityNumber: doctors.find(
+        (doctor) => doctor.firstName + " " + doctor.lastName === selectedDoctor
+      )?.identityNumber,
+      appointmentTime: selectedTime.format("HH:mm"),
+      appointmentDate: selectedDate.format("YYYY-MM-DD"),
+    };
+
+    AppointmentService.createAppointment(appointment)
+      .then((resp) => resp.data)
+      .then((resp) => {
+        console.log(resp);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div className="body_font_a">
@@ -135,8 +193,11 @@ const AppointmentForm = () => {
       >
         <option value="">DOKTOR</option>
         {doctors.map((doctor) => (
-          <option key={doctor.id} value={doctor.fullName}>
-            {doctor.fullName}
+          <option
+            key={doctor.id}
+            value={doctor.firstName + " " + doctor.lastName}
+          >
+            {doctor.firstName + " " + doctor.lastName}
           </option>
         ))}
       </select>
@@ -147,17 +208,26 @@ const AppointmentForm = () => {
         localeMap={localeMap}
       >
         <DemoContainer components={["MobileTimePicker", "DatePicker"]}>
-          <DatePicker label="Takvim" defaultValue={dayjs()} />
+          <DatePicker
+            label="Takvim"
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e)}
+          />
           <DemoItem>
             <MobileTimePicker
               label="Saat"
               ampm={false}
-              defaultValue={dayjs()}
+              value={selectedTime}
+              onChange={(e) => setSelectedTime(e)}
             />
           </DemoItem>
         </DemoContainer>
       </LocalizationProvider>
-      <Button variant="contained" color="error">
+      <Button
+        onClick={(e) => appointmentSave()}
+        variant="contained"
+        color="error"
+      >
         Randevu Oluştur
       </Button>
     </div>

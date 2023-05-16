@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import doctor from "../../images/doctor-photo.png";
 import "../../css/profile.css";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const About = () => {
   const navigate = useNavigate();
@@ -12,9 +13,20 @@ const About = () => {
   ]);
 
   const handleRandevuSil = (id) => {
-    if (window.confirm("Bu randevuyu silmek istediğinize emin misiniz?")) {
-      setRandevular(randevular.filter((randevu) => randevu.id !== id));
-    }
+    Swal.fire({
+      title: "Emin misiniz?",
+      text: "Bunu Geri Alamazsınız!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Evet, sil!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Silindi!", "Randevunuz silindi", "success");
+        setRandevular(randevular.filter((randevu) => randevu.id !== id));
+      }
+    });
   };
 
   const tc = localStorage.getItem("tc");

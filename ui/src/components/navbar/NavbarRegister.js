@@ -52,7 +52,7 @@ function NavbarRegister() {
 
         Swal.fire({
           position: "top-end",
-          icon: "success",
+          icon: "error",
           title: "Your work has been saved",
           showConfirmButton: false,
           timer: 3000,
