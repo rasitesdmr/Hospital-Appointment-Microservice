@@ -26,6 +26,6 @@ public class AppointmentController {
                                                                                  @RequestParam(name = "doctorIdentityNumber") String doctorIdentityNumber,
                                                                                  @RequestParam(name = "appointmentTime") String appointmentTime,
                                                                                  @RequestParam(name = "appointmentDate") String appointmentDate) {
-       return appointmentService.appointmentMakingProcess(cityId,hospitalId,clinicId,doctorIdentityNumber,appointmentDate,appointmentTime);
+       return appointmentService.appointmentMakingProcess(cityId,hospitalId,clinicId,doctorIdentityNumber,appointmentTime,appointmentDate);
     }
 }
