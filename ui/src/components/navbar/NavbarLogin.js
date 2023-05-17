@@ -42,13 +42,32 @@ function NavbarLogin() {
         // console.log(resp.token);
         var token = resp.token;
         AuthService.setToken(token);
-        var decode = jwt_decode(token);
-        var idNumber = decode.sub.split(",")[0];
-        localStorage.setItem("tc", idNumber);
-        localStorage.setItem("token", decode);
+        var decode = decodeToken(token);
+
+        localStorage.setItem("tc", decode.idNumber);
+        localStorage.setItem("firstName", decode.firstName);
+        localStorage.setItem("lastName", decode.lastName);
+        localStorage.setItem("email", decode.email);
+
         navigate("/api/selection");
 
         console.log(token);
+
+        function decodeToken(token) {
+          var decode = jwt_decode(token);
+          var sub = decode.sub.split(",");
+          var idNumber = sub[0];
+          var firstName = sub[1];
+          var lastName = sub[2];
+          var email = sub[3];
+
+          return {
+            idNumber: idNumber,
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+          };
+        }
       })
       .catch((err) => alert(err.message, "Geçersiz"));
     navigate("/");

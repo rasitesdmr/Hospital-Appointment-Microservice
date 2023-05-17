@@ -30,9 +30,9 @@ const About = () => {
   };
 
   const tc = localStorage.getItem("tc");
-  const isim = "Burhan";
-  const soyad = "Kavak";
-  const email = "burhan.kvk58@gmail.com";
+  const isim = localStorage.getItem("firstName");
+  const soyad = localStorage.getItem("lastName");
+  const email = localStorage.getItem("email");
   const randevu = "Göz Polikinliği";
   const tarih = "11.05.2023";
   return (

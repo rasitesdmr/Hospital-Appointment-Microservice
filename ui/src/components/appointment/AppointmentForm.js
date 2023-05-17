@@ -14,6 +14,7 @@ import { MobileTimePicker } from "@mui/x-date-pickers/MobileTimePicker";
 import dayjs from "dayjs";
 import Button from "@mui/material/Button";
 import "dayjs/locale/tr";
+import Swal from "sweetalert2";
 
 const AppointmentForm = () => {
   const [cities, setCities] = useState([]);
@@ -132,6 +133,26 @@ const AppointmentForm = () => {
       .then((resp) => resp.data)
       .then((resp) => {
         console.log(resp);
+        if (
+          typeof resp === "string" &&
+          resp.includes("Bu klinik'de aynı saatte zaten randevun var")
+        ) {
+          Swal.fire({
+            position: "mid-end",
+            icon: "error",
+            title: "Aynı tarih ve saatte başka bir randevu bulunmaktadır",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        } else {
+          Swal.fire({
+            position: "mid-end",
+            icon: "success",
+            title: "Randevu Başarılı Bir Şekilde Alınmıştır",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
       })
       .catch((err) => {
         console.log(err);
