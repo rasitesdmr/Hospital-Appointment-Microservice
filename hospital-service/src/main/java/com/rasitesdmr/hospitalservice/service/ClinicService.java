@@ -1,5 +1,6 @@
 package com.rasitesdmr.hospitalservice.service;
 
+import kafka.model.Clinic;
 import kafka.model.dto.request.ClinicRequest;
 import kafka.model.dto.response.ClinicResponse;
 
@@ -11,4 +12,6 @@ public interface ClinicService {
     void createExcelClinic(List<ClinicResponse> clinicResponseList);
 
     List<ClinicResponse> getClinicListByHospitalName(String hospitalName);
+
+    ClinicResponse getClinicResponse(Long clinicId);
 }

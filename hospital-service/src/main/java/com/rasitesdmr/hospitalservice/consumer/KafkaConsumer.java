@@ -89,4 +89,12 @@ public class KafkaConsumer {
         hospitalClinicRelationshipService.excelToAssociateHospitalWithClinic(hospitalClinicResponseList);
     }
 
+    @KafkaListener(groupId = "kafka-group-id",
+            topicPartitions = {@TopicPartition(topic = "excel-topic",
+                    partitionOffsets = @PartitionOffset(partition = "7", initialOffset = "0", relativeToCurrent = "true"))}
+    )
+    public void readDoctorContactInfoListFromQueue(List<DoctorResponse> doctorResponseList){
+        doctorService.excelAddContactInfoToDoctor(doctorResponseList);
+    }
+
 }

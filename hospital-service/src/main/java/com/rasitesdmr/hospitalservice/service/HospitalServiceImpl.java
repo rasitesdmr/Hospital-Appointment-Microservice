@@ -34,7 +34,7 @@ public class HospitalServiceImpl implements HospitalService {
 
     @Override
     public HospitalResponse createHospital(HospitalRequest hospitalRequest) {
-        String methodName = new Object() {}.getClass().getEnclosingMethod().getName();
+        String methodName = "createHospital";
 
         int countAllCitys = cityRepository.findAll().size();
         if (countAllCitys == 0){
@@ -77,7 +77,7 @@ public class HospitalServiceImpl implements HospitalService {
 
     @Override
     public void createExcelHospital(List<HospitalResponse> hospitalResponseList) {
-        String methodName = new Object() {}.getClass().getEnclosingMethod().getName();
+        String methodName = "createExcelHospital";
 
         ObjectMapper mapper = new ObjectMapper();
         List<HospitalResponse> hospitalList = mapper.convertValue(hospitalResponseList, new TypeReference<List<HospitalResponse>>() {});
@@ -107,9 +107,9 @@ public class HospitalServiceImpl implements HospitalService {
             }else {
                 log.error("[Metot : {}] - {} adına sahip hastane zaten mevcut", methodName,uppercaseHospitalName);
             }
-
-
         }
+        log.info("[Method : {}] - Excel'den gelen hastane listesi tamamlandı",methodName);
+
     }
 
     @Override
@@ -128,5 +128,16 @@ public class HospitalServiceImpl implements HospitalService {
             hospitalResponseList.add(hospitalResponse);
         }
         return hospitalResponseList;
+    }
+
+    @Override
+    public HospitalResponse getHospitalResponse(Long hospitalId) {
+        Hospital hospital = hospitalRepository.findById(hospitalId).get();
+        return HospitalResponse.builder()
+                .id(hospital.getId())
+                .name(hospital.getName())
+                .address(hospital.getAddress())
+                .cityId(hospital.getCity().getId())
+                .build();
     }
 }

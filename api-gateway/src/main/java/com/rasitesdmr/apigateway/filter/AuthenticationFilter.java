@@ -47,6 +47,8 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
 
 
         requestPathControlMap.addAll("/appointment/appointmentMakingProcess","ROLE_PATIENT","ROLE_DOCTOR");
+        requestPathControlMap.addAll("/patient/getActivePatientAppointmentList","ROLE_PATIENT","ROLE_DOCTOR");
+
 
 
 

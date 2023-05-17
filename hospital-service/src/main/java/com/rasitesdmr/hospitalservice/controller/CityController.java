@@ -27,5 +27,10 @@ public class CityController {
         return new ResponseEntity<>(cityService.getCityList(),HttpStatus.OK);
     }
 
+    @GetMapping(path = "/getCityResponse")
+    public ResponseEntity<CityResponse> getCityResponse(@RequestParam(value = "cityId")Long cityId){
+        return new ResponseEntity<>(cityService.getCityResponse(cityId),HttpStatus.OK);
+    }
+
 
 }

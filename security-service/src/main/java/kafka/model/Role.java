@@ -18,8 +18,7 @@ import java.util.List;
 public class Role {
 
     @Id
-    @GeneratedValue(generator ="random_id_generator")
-    @GenericGenerator(name = "random_id_generator" ,strategy = "com.rasitesdmr.securityservice.util.RandomIdGenerator" )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 

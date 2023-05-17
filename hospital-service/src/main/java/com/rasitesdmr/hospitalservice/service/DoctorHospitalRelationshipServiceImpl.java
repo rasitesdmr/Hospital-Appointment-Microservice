@@ -95,8 +95,9 @@ public class DoctorHospitalRelationshipServiceImpl implements DoctorHospitalRela
             } else {
                 log.error("[Metot : {}] - {} kimlik numaralı doktor bulunamadı", methodName, doctorHospitalResponse.getDoctorId());
             }
-
         }
+        log.info("[Method : {}] - Excel'den gelen doktor ve hastane eşleşme listesi tamamlandı",methodName);
+
 
     }
 }

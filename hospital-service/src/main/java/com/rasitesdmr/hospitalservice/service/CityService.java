@@ -1,5 +1,6 @@
 package com.rasitesdmr.hospitalservice.service;
 
+import kafka.model.City;
 import kafka.model.dto.request.CityRequest;
 import kafka.model.dto.response.CityResponse;
 
@@ -11,4 +12,7 @@ public interface CityService {
     void createExcelCity(List<CityResponse> cityResponseList);
 
     List<CityResponse> getCityList();
+
+    CityResponse getCityResponse(Long cityId);
+
 }

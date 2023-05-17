@@ -11,4 +11,5 @@ public interface HospitalService {
     void createExcelHospital(List<HospitalResponse> hospitalResponseList);
 
     List<HospitalResponse> getHospitalListByCityName(String cityName);
+    HospitalResponse getHospitalResponse(Long hospitalId);
 }

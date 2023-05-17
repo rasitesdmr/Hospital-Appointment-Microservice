@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface HospitalRepository extends JpaRepository<Hospital, Long> {
     boolean existsByName(String name);
     Hospital findByName(String hospitalName);
+
+    Hospital findTopByOrderByIdDesc();
 }

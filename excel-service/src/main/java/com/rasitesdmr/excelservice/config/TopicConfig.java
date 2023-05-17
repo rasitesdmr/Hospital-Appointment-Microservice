@@ -12,7 +12,7 @@ public class TopicConfig {
     public NewTopic createExcelTopic() {
         return TopicBuilder
                 .name("excel-topic")
-                .partitions(7)
+                .partitions(8)
                 .build();
     }
 

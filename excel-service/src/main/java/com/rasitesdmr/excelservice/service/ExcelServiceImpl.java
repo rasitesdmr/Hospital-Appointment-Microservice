@@ -37,7 +37,7 @@ public class ExcelServiceImpl implements ExcelService {
     }
 
     public void processFileByName(InputStream inputStream, String fileName) {
-        String methodName = new Object() {}.getClass().getEnclosingMethod().getName();
+        String methodName = "processFileByName";
 
         Map<Integer, String> setterMapping = new HashMap<>();
 
@@ -72,6 +72,17 @@ public class ExcelServiceImpl implements ExcelService {
                 setterMapping.put(6,"setProfession");
                 List<DoctorResponse>doctorList = ExcelUtils.connectExcelColumnsToModelFields(inputStream, DoctorResponse.class,setterMapping);
                 kafkaProducer.sendDoctorListToQueue(doctorList);
+                break;
+            case "doctorContactInfo.xlsx":
+                setterMapping.put(0,"setIdentityNumber");
+                setterMapping.put(1,"setFirstName");
+                setterMapping.put(2,"setLastName");
+                setterMapping.put(3,"setDateOfBirth");
+                setterMapping.put(4,"setPhoneNumber");
+                setterMapping.put(5,"setEmail");
+                setterMapping.put(6,"setProfession");
+                List<DoctorResponse> docktorContactInfoList = ExcelUtils.connectExcelColumnsToModelFields(inputStream, DoctorResponse.class,setterMapping);
+                kafkaProducer.sendDoctorContactInfoListToQueue(docktorContactInfoList);
                 break;
             case "doctorClinic.xlsx":
                 setterMapping.put(0,"setDoctorId");

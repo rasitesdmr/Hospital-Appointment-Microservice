@@ -44,5 +44,7 @@ public class KafkaProducer {
         kafkaTemplate.send("excel-topic",6,"key-5", hospitalClinicList);
     }
 
-
+    public void sendDoctorContactInfoListToQueue(List<DoctorResponse> doctorList){
+        kafkaTemplate.send("excel-topic",7,"key-5", doctorList);
+    }
 }

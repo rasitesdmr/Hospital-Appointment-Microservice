@@ -62,8 +62,22 @@ public class GatewayConfiguration {
                                 .filter(authFilter).filter(corsPostFilter))
                         .uri("lb://HOSPITAL-SERVICE"))
 
-                .route("proxy-hospital-service-3", r -> r.path("/proxy-hospitalAndClinic/**")
-                        .filters(f -> f.rewritePath("/proxy-hospitalAndClinic/(?<segment>.*)", "/hospitalAndClinic/${segment}")
+                .route("proxy-hospital-service-3", r -> r.path("/proxy-doctorClinicRelationship/**")
+                        .filters(f -> f.rewritePath("/proxy-doctorClinicRelationship/(?<segment>.*)", "/doctorClinicRelationship/${segment}")
+                                .dedupeResponseHeader("Access-Control-Allow-Origin", "RETAIN_UNIQUE")
+                                .dedupeResponseHeader("Access-Control-Allow-Credentials", "RETAIN_UNIQUE")
+                                .filter(authFilter).filter(corsPostFilter))
+                        .uri("lb://HOSPITAL-SERVICE"))
+
+                .route("proxy-hospital-service-4", r -> r.path("/proxy-doctorHospitalRelationship/**")
+                        .filters(f -> f.rewritePath("/proxy-doctorHospitalRelationship/(?<segment>.*)", "/doctorHospitalRelationship/${segment}")
+                                .dedupeResponseHeader("Access-Control-Allow-Origin", "RETAIN_UNIQUE")
+                                .dedupeResponseHeader("Access-Control-Allow-Credentials", "RETAIN_UNIQUE")
+                                .filter(authFilter).filter(corsPostFilter))
+                        .uri("lb://HOSPITAL-SERVICE"))
+
+                .route("proxy-hospital-service-5", r -> r.path("/proxy-hospitalClinicRelationship/**")
+                        .filters(f -> f.rewritePath("/proxy-hospitalClinicRelationship/(?<segment>.*)", "/hospitalClinicRelationship/${segment}")
                                 .dedupeResponseHeader("Access-Control-Allow-Origin", "RETAIN_UNIQUE")
                                 .dedupeResponseHeader("Access-Control-Allow-Credentials", "RETAIN_UNIQUE")
                                 .filter(authFilter).filter(corsPostFilter))
@@ -77,7 +91,7 @@ public class GatewayConfiguration {
                         .uri("lb://HOSPITAL-SERVICE"))
 
 
-                .route("proxy-hospital-service-5", r -> r.path("/proxy-hospital/**")
+                .route("proxy-hospital-service-6", r -> r.path("/proxy-hospital/**")
                         .filters(f -> f.rewritePath("/proxy-hospital/(?<segment>.*)", "/hospital/${segment}")
                                 .dedupeResponseHeader("Access-Control-Allow-Origin", "RETAIN_UNIQUE")
                                 .dedupeResponseHeader("Access-Control-Allow-Credentials", "RETAIN_UNIQUE")
@@ -85,8 +99,16 @@ public class GatewayConfiguration {
                         .uri("lb://HOSPITAL-SERVICE"))
 
                 // API Gateway -> Appointment Service
-                .route("proxy-appointment-service", r -> r.path("/proxy-appointment/**")
+                .route("proxy-appointment-service 1", r -> r.path("/proxy-appointment/**")
                         .filters(f -> f.rewritePath("/proxy-appointment/(?<segment>.*)", "/appointment/${segment}")
+                                .dedupeResponseHeader("Access-Control-Allow-Origin", "RETAIN_UNIQUE")
+                                .dedupeResponseHeader("Access-Control-Allow-Credentials", "RETAIN_UNIQUE")
+                                .filter(authFilter).filter(corsPostFilter))
+                        .uri("lb://APPOINTMENT-SERVICE"))
+
+                // API Gateway -> Appointment Service
+                .route("proxy-appointment-service 2", r -> r.path("/proxy-patient/**")
+                        .filters(f -> f.rewritePath("/proxy-patient/(?<segment>.*)", "/patient/${segment}")
                                 .dedupeResponseHeader("Access-Control-Allow-Origin", "RETAIN_UNIQUE")
                                 .dedupeResponseHeader("Access-Control-Allow-Credentials", "RETAIN_UNIQUE")
                                 .filter(authFilter).filter(corsPostFilter))

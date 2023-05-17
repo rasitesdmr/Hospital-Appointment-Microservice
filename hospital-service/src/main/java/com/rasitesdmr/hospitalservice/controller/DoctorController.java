@@ -2,6 +2,7 @@ package com.rasitesdmr.hospitalservice.controller;
 
 import com.rasitesdmr.hospitalservice.service.DoctorService;
 import kafka.model.dto.request.DoctorRequest;
+import kafka.model.dto.response.ClinicResponse;
 import kafka.model.dto.response.DoctorResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,11 @@ public class DoctorController {
     @GetMapping("/getDoctorListByClinicName")  // Randevu sistemi için klinik adına göre doktorları getirir.
     public ResponseEntity<List<DoctorResponse>> getDoctorListByClinicName(@RequestParam(name = "clinicName") String clinicName) {
         return new ResponseEntity<>(doctorService.getDoctorListByClinicName(clinicName), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/getDoctorResponse")
+    public ResponseEntity<DoctorResponse> getDoctorResponse(@RequestParam(value = "doctorIdentityNumber")String  doctorIdentityNumber){
+        return new ResponseEntity<>(doctorService.getDoctorResponse(doctorIdentityNumber),HttpStatus.OK);
     }
 
 }

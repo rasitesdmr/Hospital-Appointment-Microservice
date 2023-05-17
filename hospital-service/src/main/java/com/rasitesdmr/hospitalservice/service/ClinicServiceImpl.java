@@ -70,8 +70,7 @@ public class ClinicServiceImpl implements ClinicService {
 
     @Override
     public void createExcelClinic(List<ClinicResponse> clinicResponseList) {
-        String methodName = new Object() {
-        }.getClass().getEnclosingMethod().getName();
+        String methodName = "createExcelClinic";
 
         ObjectMapper mapper = new ObjectMapper();
         List<ClinicResponse> clinicList = mapper.convertValue(clinicResponseList, new TypeReference<List<ClinicResponse>>() {
@@ -96,8 +95,7 @@ public class ClinicServiceImpl implements ClinicService {
                 }
             }
         }
-
-
+        log.info("[Method : {}] - Excel'den gelen klinik listesi tamamlandı",methodName);
     }
 
     @Override
@@ -112,5 +110,14 @@ public class ClinicServiceImpl implements ClinicService {
             clinicResponseList.add(clinicResponse);
         }
         return clinicResponseList;
+    }
+
+    @Override
+    public ClinicResponse getClinicResponse(Long clinicId) {
+        Clinic clinic = clinicRepository.findById(clinicId).get();
+        return ClinicResponse.builder()
+                .id(clinic.getId())
+                .name(clinic.getName())
+                .build();
     }
 }

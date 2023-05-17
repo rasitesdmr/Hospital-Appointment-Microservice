@@ -66,7 +66,7 @@ public class HospitalClinicRelationshipServiceImpl implements HospitalClinicRela
     @Override
     @Transactional
     public void excelToAssociateHospitalWithClinic(List<HospitalClinicResponse> hospitalClinicResponseList) {
-        String methodName = new Object() {}.getClass().getEnclosingMethod().getName();
+        String methodName = "excelToAssociateHospitalWithClinic";
 
         ObjectMapper mapper = new ObjectMapper();
         List<HospitalClinicResponse> hospitalClinicList = mapper.convertValue(hospitalClinicResponseList, new TypeReference<List<HospitalClinicResponse>>() {});
@@ -100,5 +100,6 @@ public class HospitalClinicRelationshipServiceImpl implements HospitalClinicRela
             }
 
         }
+        log.info("[Method : {}] - Excel'den gelen hastane ve klinik eşleşme listesi tamamlandı",methodName);
     }
 }

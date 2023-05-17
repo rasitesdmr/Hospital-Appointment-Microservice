@@ -65,7 +65,7 @@ public class DoctorClinicRelationshipServiceImpl implements DoctorClinicRelation
     @Override
     @Transactional
     public void excelToAssociateDoctorWithClinic(List<DoctorClinicResponse> doctorClinicResponseList) {
-        String methodName = new Object() {}.getClass().getEnclosingMethod().getName();
+        String methodName = "excelToAssociateDoctorWithClinic";
 
         ObjectMapper mapper = new ObjectMapper();
         List<DoctorClinicResponse> doctorClinicList = mapper.convertValue(doctorClinicResponseList, new TypeReference<List<DoctorClinicResponse>>() {});
@@ -102,6 +102,7 @@ public class DoctorClinicRelationshipServiceImpl implements DoctorClinicRelation
             }
 
         }
+        log.info("[Method : {}] - Excel'den gelen doktor ve klinik eşleşme listesi tamamlandı",methodName);
 
     }
 

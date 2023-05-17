@@ -48,7 +48,7 @@ public class CityServiceImpl implements CityService {
             log.info("[Metot : {}] - {} numaralı id'ye sahip şehir varlığı kaydedildi" ,methodName,city.getId());
         }catch (Exception exception){
             log.error("[Metot : - {}] - {} adına sahip şehir varlığını kaydederken hata oluştu : {}",methodName,uppercaseCityName,exception.getMessage());
-            throw new RegistrationException(uppercaseCityName + "adına sahip şehir varlığını kaydederken hata oluştu");
+            throw new RegistrationException(uppercaseCityName + " adına sahip şehir varlığını kaydederken hata oluştu");
         }
 
         return CityResponse.builder()
@@ -59,7 +59,7 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public void createExcelCity(List<CityResponse> cityResponseList) {
-        String methodName = new Object() {}.getClass().getEnclosingMethod().getName();
+        String methodName = "createExcelCity";
 
         ObjectMapper mapper = new ObjectMapper();
         List<CityResponse> cityList = mapper.convertValue(cityResponseList, new TypeReference<List<CityResponse>>() {});
@@ -81,10 +81,8 @@ public class CityServiceImpl implements CityService {
                     log.error("[Metot : - {}] - {} adına sahip şehir varlığını kaydederken hata oluştu : {}",methodName,uppercaseCityName,exception.getMessage());
                 }
             }
-
-
-
         }
+        log.info("[Method : {}] - Excel'den gelen şehir listesi tamamlandı",methodName);
     }
 
     @Override
@@ -101,5 +99,14 @@ public class CityServiceImpl implements CityService {
         }
 
         return cityResponseList;
+    }
+
+    @Override
+    public CityResponse getCityResponse(Long cityId) {
+        City city = cityRepository.findById(cityId).get();
+        return CityResponse.builder()
+                .id(city.getId())
+                .name(city.getName())
+                .build();
     }
 }
