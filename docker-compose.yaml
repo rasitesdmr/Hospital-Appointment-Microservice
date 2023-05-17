@@ -36,8 +36,8 @@ services:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: password
       POSTGRES_DB: hospital
-    volumes:
-      - hospital-db-data:/var/lib/postgresql/data
+#    volumes:
+#      - hospital-db-data:/var/lib/postgresql/data
     networks:
       - comment
 

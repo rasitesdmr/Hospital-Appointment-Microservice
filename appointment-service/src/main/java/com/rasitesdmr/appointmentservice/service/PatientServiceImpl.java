@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -45,12 +46,26 @@ public class PatientServiceImpl implements PatientService {
     public List<PatientAppointmentResponse> getActivePatientAppointmentList() {
         Patient patient = patientRepository.findById(getLoggedInUserInfo()).get();
         List<Appointment> appointmentList = patient.getAppointment().stream().filter(appointment -> appointment.getStatus().equals(EStatus.ACTIVE)).toList();
+        List<PatientAppointmentResponse> patientAppointmentResponses = new ArrayList<>();
         for (Appointment appointment : appointmentList) {
+
             CityResponse cityResponse = patientFeignClient.getCityResponse(appointment.getCityId());
             HospitalResponse hospitalResponse = patientFeignClient.getHospitalResponse(appointment.getHospitalId());
             ClinicResponse clinicResponse = patientFeignClient.getClinicResponse(appointment.getClinicId());
             DoctorResponse doctorResponse = patientFeignClient.getDoctorResponse(appointment.getDoctorIdentityNumber());
-            System.out.println();
+
+            AppointmentResponse appointmentResponse = new AppointmentResponse();
+            appointmentResponse.setId(appointment.getId());
+            appointmentResponse.setStatus(appointment.getStatus().name());
+            appointmentResponse.setCityResponse(cityResponse);
+            appointmentResponse.setClinicResponse(clinicResponse);
+            appointmentResponse.setHospitalResponse(hospitalResponse);
+            appointmentResponse.setDoctorResponse(doctorResponse);
+
+
+            appointmentResponse.setAppointmentTime(appointment.getAppointmentTime());
+            appointmentResponse.setAppointmentDate(appointment.getAppointmentDate());
+
         }
         return null;
     }
