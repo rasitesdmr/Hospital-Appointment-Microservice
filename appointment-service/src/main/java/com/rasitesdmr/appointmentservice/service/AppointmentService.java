@@ -9,5 +9,7 @@ public interface AppointmentService {
                                   String appointmentTime,
                                   String appointmentDate);
 
+   boolean appointmentRemove(Long appointmentId);
+
 
 }

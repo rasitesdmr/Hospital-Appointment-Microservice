@@ -11,4 +11,5 @@ public interface PatientService {
     void createPatient(UserKafkaRequest userKafkaRequest);
 
     List<PatientAppointmentResponse> getActivePatientAppointmentList();
+
 }

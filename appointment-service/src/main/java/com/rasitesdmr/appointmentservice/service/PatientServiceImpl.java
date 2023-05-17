@@ -46,7 +46,17 @@ public class PatientServiceImpl implements PatientService {
     public List<PatientAppointmentResponse> getActivePatientAppointmentList() {
         Patient patient = patientRepository.findById(getLoggedInUserInfo()).get();
         List<Appointment> appointmentList = patient.getAppointment().stream().filter(appointment -> appointment.getStatus().equals(EStatus.ACTIVE)).toList();
+
         List<PatientAppointmentResponse> patientAppointmentResponses = new ArrayList<>();
+
+        PatientAppointmentResponse patientAppointmentResponse = new PatientAppointmentResponse();
+        patientAppointmentResponse.setIdentityNumber(patient.getIdentityNumber());
+        patientAppointmentResponse.setFirstName(patient.getFirstName());
+        patientAppointmentResponse.setLastName(patient.getLastName());
+        patientAppointmentResponse.setEmail(patient.getEmail());
+
+        List<AppointmentResponse> appointmentResponses = new ArrayList<>();
+
         for (Appointment appointment : appointmentList) {
 
             CityResponse cityResponse = patientFeignClient.getCityResponse(appointment.getCityId());
@@ -61,13 +71,15 @@ public class PatientServiceImpl implements PatientService {
             appointmentResponse.setClinicResponse(clinicResponse);
             appointmentResponse.setHospitalResponse(hospitalResponse);
             appointmentResponse.setDoctorResponse(doctorResponse);
-
-
             appointmentResponse.setAppointmentTime(appointment.getAppointmentTime());
             appointmentResponse.setAppointmentDate(appointment.getAppointmentDate());
 
+            appointmentResponses.add(appointmentResponse);
+
         }
-        return null;
+        patientAppointmentResponse.setAppointmentResponses(appointmentResponses);
+        patientAppointmentResponses.add(patientAppointmentResponse);
+        return patientAppointmentResponses;
     }
 
     public String getLoggedInUserInfo() {

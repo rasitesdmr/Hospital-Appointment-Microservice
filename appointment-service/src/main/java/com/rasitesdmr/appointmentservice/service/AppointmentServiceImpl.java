@@ -76,6 +76,12 @@ public class AppointmentServiceImpl implements AppointmentService {
         return "Bu klinik'de aynı saatte zaten randevun var";
     }
 
+    @Override
+    public boolean appointmentRemove(Long appointmentId) {
+        appointmentRepository.deleteById(appointmentId);
+        return true;
+    }
+
 
     private boolean checkPatientNoShowAppointmentsBeforeMaking(Patient patient, long clinicId) {  // Randevu almadan önce hastanın randevularını kontrol etme
        String methodName = "checkPatientNoShowAppointmentsBeforeMaking";
