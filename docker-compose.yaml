@@ -235,8 +235,8 @@ services:
     image: docker.elastic.co/logstash/logstash:8.3.3
     container_name: logstash_springboot
     volumes:
-      - /var/jenkins_home/workspace/hospital-appointment-microservice/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
-      - /var/jenkins_home/workspace/hospital-appointment-microservice/logstash/pipeline:/usr/share/logstash/pipeline:ro
+      - /var/jenkins_home/workspace/hospital-appointment-microservice/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - /var/jenkins_home/workspace/hospital-appointment-microservice/logstash/pipeline:/usr/share/logstash/pipeline
     ports:
       - "5044:5044"
       - "5000:5000/tcp"
