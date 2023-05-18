@@ -8,6 +8,8 @@ import CityCreate from "./components/city/CityCreate";
 import AppointmentForm from "./components/appointment/AppointmentForm";
 import About from "./components/profile/About";
 import NavbarLoginWithDoctor from "./components/navbar/NavbarLoginWithDoctor";
+import AbaoutDoctor from "./components/profile/AbaoutDoctor";
+import Home from "./components/navbar/Home";
 
 function App() {
   return (
@@ -17,7 +19,7 @@ function App() {
       {/* <NavbarRegister /> */}
 
       <Routes>
-        <Route path="" element={<Navbar />} />
+        <Route path="" element={<Home />} />
         {/* <Route exact path="/api/login">
           {localStorage.getItem("tc") != null
             ? () => <Navigate to="/" />
@@ -31,6 +33,7 @@ function App() {
         <Route path="/api/city/create" element={<CityCreate />} />
         <Route path="/api/selection" element={<AppointmentForm />} />
         <Route path="/api/about" element={<About />} />
+        <Route path="/api/about/doctor" element={<AbaoutDoctor />} />
       </Routes>
     </div>
   );

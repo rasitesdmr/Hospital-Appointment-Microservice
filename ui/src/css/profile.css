@@ -7,6 +7,7 @@
     box-sizing: border-box;
     min-height: 100vh;
     font-family: "Poppins", sans-serif;
+    color: white;
 }
 
 ul {
@@ -15,11 +16,13 @@ ul {
     padding: 0;
     display: flex;
     align-items: center;
+    color: white;
 
 }
 
 a {
     text-decoration: none;
+    color: white;
 
 }
 .header__wrapper header {
@@ -69,18 +72,22 @@ a {
     font-weight:  600;
     font-size: 22px;
     margin-bottom: 5px;
+    color: white;
 }
 
 .header__wrapper .cols__container .left__col p {
     font-size: 0.9rem;
     color: #818181;
     margin: 0;
+    color: white;
 }
 
 .header__wrapper .cols__container .left__col .about {
     justify-content: space-between;
     position: relative;
     margin: 35px 0;
+    color: white;
+    
 }
 
 .header__wrapper .cols__container .left__col .about li {
@@ -88,11 +95,13 @@ a {
     flex-direction: column;
     color: #818181;
     font-size: 0.9rem;
+    color: white;
 }
 
 .header__wrapper .cols__container .left__col .about li span {
-    color: #1d1d1d;
+    
     font-weight: 600;
+    color: white;
 
 }
 
@@ -109,7 +118,7 @@ a {
 
 .header__wrapper .cols__container .content p {
     font-size: 1rem;
-    color: #1d1d1d;
+    color: white;
     line-height: 1.8rem;
 }
 
@@ -122,6 +131,7 @@ a {
 
 .header__wrapper .cols__container .content ul li {
     font-size: 1.3rem;
+    
 }
 
 .header__wrapper .cols__container .right__col nav {
@@ -145,7 +155,7 @@ a {
 
 }
 
- button {
+ .button_about {
     background: #0091ff;
     color: #fff;
     border: none;
@@ -157,9 +167,9 @@ a {
 
 }
 
-button:hover {
+.button_about:hover {
     opacity: 0.5;
-    background-color: purple;
+    background-color: black;
 
 }
 
