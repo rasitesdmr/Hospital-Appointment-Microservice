@@ -1,0 +1,12 @@
+# Logstash'ın hangi IP adresinde çalışacağını belirtir.
+# "127.0.0.1" değeri, Logstash'ın yalnızca yerel ağdaki bağlantılara izin vereceğini gösterir.
+# "0.0.0.0" değeri ise Logstash'ın tüm ağ arayüzlerinde (IPv4) dinlemeye açık olduğunu gösterir.
+http.host: "93.177.102.198"
+
+# Logstash'ın kullanacağı pipeline yapılandırma dosyalarının yolunu belirtir.
+# Pipeline, Logstash'ın log verilerini nasıl işleyeceğini ve nereye göndereceğini tanımlar.
+path.config: /usr/share/logstash/pipeline
+
+# Logstash'ın X-Pack Monitoring özelliği için Elasticsearch sunucusunun konumunu belirtir.
+# Bu sayede, Logstash'ın durumunu ve performansını izleyebilir, hataları ve problemleri tespit edebilirsiniz.
+xpack.monitoring.elasticsearch.hosts: [ "93.177.102.198:9200" ]
